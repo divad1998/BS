@@ -1,0 +1,2 @@
+insert into Expenses(title, type, amount, balance, description, budgetID, patronID, createdAt) values ('Feeding', 'Necessity', 'N10000', 'N10000', 'rice & beans', null, null, '2022-08-13 21:54:45');
+insert into Expenses(title, type, amount, balance, description, budgetID, patronID, createdAt) values ('Transportation', 'Necessity', 'N5000', 'N5000', 'to work and church', null, null, '2022-08-13 21:54:45');
