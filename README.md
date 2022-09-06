@@ -1,2 +1,2 @@
 # BudgetSpend
-A Budgeting Restful API
+A Restful API
