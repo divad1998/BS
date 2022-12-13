@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @Data
 public class PatronModel extends RepresentationModel<PatronModel> {
 
-    //private String photo;
+    private String profileMedia;
     private String firstName;
     private String lastName;
     private String otherNames;
@@ -18,14 +18,14 @@ public class PatronModel extends RepresentationModel<PatronModel> {
     private String lga;
     private String city;
     private String sex;
-    private short cateringFor;
+    private int cateringFor;
     private String email;
     private String password;
     private LocalDateTime createdAt;
 
 
     public PatronModel(Patron patron) {
-        //this.photo = patron.getPhoto();
+        this.profileMedia = patron.getProfileMedia();
         this.firstName = patron.getFirstName();
         this.lastName = patron.getLastName();
         this.otherNames = patron.getOtherNames();

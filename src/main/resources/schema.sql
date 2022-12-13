@@ -1,16 +1,16 @@
 create table if not exists Patrons (
     id IDENTITY UNIQUE NOT NULL,
-    photo varchar(max),
+    profileMedia varchar(36940),
     firstname varchar(20) NOT NULL,
     lastName varchar(20) NOT NULL,
-    otherNames varchar(50),
+    otherNames varchar(20),
     country varchar(50) NOT NULL,
     state varchar(50) NOT NULL,
     lga varchar(50) NOT NULL,
     city varchar(50) NOT NULL,
     sex varchar(20) NOT NULL,
     cateringFor TINYINT NOT NULL,
-    email varchar(50) NOT NULL,
+    email varchar(50) NOT NULL UNIQUE,
     password varchar(50) NOT NULL,
     createdAt timestamp NOT NULL
 );

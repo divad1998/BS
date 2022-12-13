@@ -1,0 +1,23 @@
+{
+  "profileMedia": "$$$",
+  "firstName": "Dave",
+  "lastName": "Dinneya",
+  "otherNames": "Chigozie",
+  "country": "Nigeria",
+  "state": "Nasarawa",
+  "lga": "Karu",
+  "city": "One man village",
+  "sex": "Male",
+  "cateringFor": 1,
+  "email": "divadchigozie@gmail.com",
+  "password": "123456",
+  "createdAt": "2022-12-03T18:29:20.200198928",
+  "_links": {
+    "self": {
+      "href": "http://localhost:8080/api/patrons/1"
+    },
+    "logout": {
+      "href": "http://localhost:8080/api/logout"
+    }
+  }
+}

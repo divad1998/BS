@@ -1,6 +1,9 @@
 package com.budgit.table;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
@@ -30,4 +33,5 @@ public class Expense {
         Necessity,
         Luxury
     }
+
 }

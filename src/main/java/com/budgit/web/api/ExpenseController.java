@@ -19,7 +19,7 @@ public class ExpenseController {
     @PostMapping
     public Mono<Expense> addExpense(@RequestBody Expense expense) {
 
-        return expenseService.saveExpense(expense);
+        return null;
     }
 
     @GetMapping

@@ -1,0 +1,11 @@
+{
+  "message": "Hey! Now our patron!",
+  "_links": {
+    "register": {
+      "href": "http://localhost:8080/api/patrons"
+    },
+    "login": {
+      "href": "http://localhost:8080/api/login"
+    }
+  }
+}
