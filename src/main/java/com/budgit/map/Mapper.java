@@ -15,40 +15,33 @@ public class Mapper {
     /**
      *
      * essentially maps BudgetDTO to Budget
-     * @return essentially, resulting budget
+     * @return resulting budget
      */
-    public Mono<Budget> toBudget(Mono<BudgetDTO> budgetDTOMono) {
-
-        return budgetDTOMono
-                .map(budgetDTO -> {
+    public Budget toBudget(BudgetDTO budgetDTO) {
                     Budget budget = new Budget();
-                    budget.setMonth(budgetDTO.getMonth());
+                    budget.setMonthh(budgetDTO.getMonthh());
                     budget.setIncome(budgetDTO.getIncome());
                     budget.setBalance(budgetDTO.getBalance());
-                    budget.setCreatedAt(budgetDTO.getCreatedAt());
+                    if (budgetDTO.getCreatedAt() != null)  {
+                        budget.setCreatedAt(budgetDTO.getCreatedAt());
+                    }
 
                     return budget;
-                });
-
     }
 
     /**
      *
      * essentially maps Budget to BudgetDTO
-     * @return essentially, resulting budgetDTO
+     * @return resulting budgetDTO
      */
-    public Mono<BudgetDTO> toBudgetDTO(Mono<Budget> budgetMono) {
+    public BudgetDTO toBudgetDTO(Budget budget) {
+        BudgetDTO budgetDTO = new BudgetDTO();
+        budgetDTO.setId(budget.getId());
+        budgetDTO.setMonthh(budget.getMonthh());
+        budgetDTO.setIncome(budget.getIncome());
+        budgetDTO.setBalance(budget.getBalance());
+        budgetDTO.setCreatedAt(budget.getCreatedAt());
 
-        return budgetMono
-                .map(budget -> {
-                    BudgetDTO budgetDTO = new BudgetDTO();
-                    budgetDTO.setId(budget.getId());
-                    budgetDTO.setMonth(budget.getMonth());
-                    budgetDTO.setIncome(budget.getIncome());
-                    budgetDTO.setBalance(budget.getBalance());
-                    budgetDTO.setCreatedAt(budget.getCreatedAt());
-
-                    return budgetDTO;
-                });
+        return budgetDTO;
     }
 }

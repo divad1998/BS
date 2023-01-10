@@ -10,6 +10,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -25,21 +26,14 @@ public class BudgetService {
 
     /**
      *
-     * creates new budget by calling BudgetRepository
-     * @return BudgetDTO mono encapsulating persisted Budget with its associated expenses.
+     * Creates new budget by calling {@link BudgetRepository}
+     * @return {@link BudgetDTO} Mono publishing persisted Budget.
      */
-    public Mono<BudgetDTO> create(Mono<BudgetDTO> budgetDTOPublisher) {
-
-        return budgetDTOPublisher
-                .map(budgetDTO -> {
-                    //ToDo: study more about block()
-                    Budget budget = budgetRepository.saveAll(new Mapper().toBudget(Mono.just(budgetDTO))).next().block(Duration.ofMillis(2));
-                    Flux<Expense> expenseFlux = expenseService.save(Flux.fromIterable(budgetDTO.getExpenses()), Mono.just(budget.getId()));
-                    BudgetDTO returnBudgetDTO = new Mapper().toBudgetDTO(Mono.just(budget)).block(Duration.ofMillis(2));
-                    //ToDo: test whether null expenses are allowed.
-                    List<Expense> expenses = (List<Expense>) expenseFlux.toIterable();
-                    returnBudgetDTO.setExpenses(expenses);
-                    return returnBudgetDTO;
-                });
+    public Mono<BudgetDTO> create(BudgetDTO budgetDTO) {
+        Budget budget = new Mapper().toBudget(budgetDTO);
+        //ToDo: get patron id from security context and set budget id
+        return budgetRepository
+                            .save(budget)
+                            .map(savedBudget -> new Mapper().toBudgetDTO(savedBudget));
     }
 }

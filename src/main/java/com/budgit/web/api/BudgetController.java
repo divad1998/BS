@@ -8,16 +8,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
-//is it code author?
-
-/**
- *
- * @author Boy
- */
 @RestController
 @RequestMapping(path = "/api/budgets")
 public class BudgetController {
-
     private final BudgetService budgetService;
 
     public BudgetController(BudgetService budgetService) {
@@ -26,14 +19,12 @@ public class BudgetController {
 
     @PostMapping(produces = "application/hal+json")
     @ResponseStatus(HttpStatus.CREATED)
-    public Mono<BudgetModel> createBudget(@RequestBody Mono<BudgetDTO> budgetDTOPublisher) {
+    public Mono<BudgetModel> createBudget(@RequestBody BudgetDTO budgetDTO) {
 
-        Mono<BudgetDTO> savedBudgetDTOPub = budgetService.create(budgetDTOPublisher);
+        Mono<BudgetDTO> savedBudgetDTOMono = budgetService.create(budgetDTO);
 
-        return savedBudgetDTOPub //this is null. Why?
-                .map(savedBudgetDTO -> {
-                    return new BudgetModelAssembler().toModel(savedBudgetDTO);
-                });
+        return savedBudgetDTOMono
+                        .map(savedBudgetDTO -> new BudgetModelAssembler().toModel(savedBudgetDTO));
     }
 
     //ToDo: edit this

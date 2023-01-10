@@ -21,15 +21,11 @@ public class BudgetDTO {
 
     //The non-nulls
     @NonNull
-    private String month;
+    private String monthh;
     @NonNull
     private String income;
     @NonNull
     private String balance;
-    @NonNull
-    private List<Expense> expenses;
-    //ToDo: fix this
-    //@NonNull
-    private LocalDateTime createdAt;
 
+    private LocalDateTime createdAt;
 }

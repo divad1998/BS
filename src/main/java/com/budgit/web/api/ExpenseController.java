@@ -22,9 +22,9 @@ public class ExpenseController {
         return null;
     }
 
-    @GetMapping
-    public Flux<Expense> fetchExpenses() {
-
-        return expenseService.findAllExpenses();
-    }
+//    @GetMapping
+//    public Flux<Expense> fetchExpenses() {
+//
+//        return expenseService.findAllExpenses();
+//    }
 }

@@ -17,6 +17,7 @@ create table if not exists Patrons (
 
 create table if not exists Budgets (
     id IDENTITY UNIQUE NOT NULL,
+    monthh varchar(50),
     income varchar(50),
     balance varchar(50),
     patronId Long,
