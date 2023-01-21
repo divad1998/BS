@@ -17,14 +17,13 @@ public class BudgetController {
         this.budgetService = budgetService;
     }
 
-    @PostMapping(produces = "application/hal+json")
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Mono<BudgetModel> createBudget(@RequestBody BudgetDTO budgetDTO) {
+    public Mono<BudgetDTO> createBudget(@RequestBody BudgetDTO budgetDTO) {
 
         Mono<BudgetDTO> savedBudgetDTOMono = budgetService.create(budgetDTO);
 
-        return savedBudgetDTOMono
-                        .map(savedBudgetDTO -> new BudgetModelAssembler().toModel(savedBudgetDTO));
+        return savedBudgetDTOMono;
     }
 
     //ToDo: edit this

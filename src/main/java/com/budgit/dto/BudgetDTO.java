@@ -21,7 +21,7 @@ public class BudgetDTO {
 
     //The non-nulls
     @NonNull
-    private String monthh;
+    private String _month;
     @NonNull
     private String income;
     @NonNull

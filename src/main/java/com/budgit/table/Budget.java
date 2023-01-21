@@ -19,7 +19,7 @@ public class Budget {
     @Id
     private Long id;
 
-    private String monthh;
+    private String _month;
     private String income;
     private String balance;
     @Column(value = "patronId")

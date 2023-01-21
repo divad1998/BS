@@ -18,16 +18,18 @@ public class Mapper {
      * @return resulting budget
      */
     public Budget toBudget(BudgetDTO budgetDTO) {
-                    Budget budget = new Budget();
-                    budget.setMonthh(budgetDTO.getMonthh());
-                    budget.setIncome(budgetDTO.getIncome());
-                    budget.setBalance(budgetDTO.getBalance());
-                    if (budgetDTO.getCreatedAt() != null)  {
-                        budget.setCreatedAt(budgetDTO.getCreatedAt());
-                    }
+        Budget budget = new Budget();
+        budget.setIncome(budgetDTO.getIncome());
+        budget.set_month(budgetDTO.get_month());
+        budget.setBalance(budgetDTO.getBalance());
 
-                    return budget;
+        if (budgetDTO.getCreatedAt() != null)  {
+            budget.setCreatedAt(budgetDTO.getCreatedAt());
+        }
+
+        return budget;
     }
+
 
     /**
      *
@@ -37,7 +39,7 @@ public class Mapper {
     public BudgetDTO toBudgetDTO(Budget budget) {
         BudgetDTO budgetDTO = new BudgetDTO();
         budgetDTO.setId(budget.getId());
-        budgetDTO.setMonthh(budget.getMonthh());
+        budgetDTO.set_month(budget.get_month());
         budgetDTO.setIncome(budget.getIncome());
         budgetDTO.setBalance(budget.getBalance());
         budgetDTO.setCreatedAt(budget.getCreatedAt());
