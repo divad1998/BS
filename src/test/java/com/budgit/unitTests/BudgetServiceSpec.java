@@ -23,7 +23,7 @@ import static org.mockito.ArgumentMatchers.any;
 
 @ExtendWith({MockitoExtension.class, BudgetParameterResolver.class, BudgetDTOParamResolver.class})
 public class BudgetServiceSpec {
-    BudgetDTO budgetDTO = new BudgetDTO();
+    BudgetDTO budgetDTO;
     Budget budget;
 
     @Mock
@@ -33,6 +33,7 @@ public class BudgetServiceSpec {
 
     @BeforeEach
     void init(BudgetDTO resolvedBudgetDTO, Budget resolvedBudget) {
+        budgetDTO = new BudgetDTO();
         budgetDTO.set_month(resolvedBudgetDTO.get_month());
         budgetDTO.setIncome(resolvedBudgetDTO.getIncome());
         budgetDTO.setBalance(resolvedBudgetDTO.getBalance());
@@ -40,12 +41,16 @@ public class BudgetServiceSpec {
         budget = resolvedBudget;
     }
 
-    @DisplayName("Persists budget")
+    @DisplayName("Creates budget")
     @Test
     void saveBudget() {
-        var expectedBudgetDto = budgetDTO;
+        var expectedBudgetDto = new BudgetDTO();
         expectedBudgetDto.setId(1L);
-        expectedBudgetDto.setCreatedAt(LocalDateTime.parse("2023-01-12T06:26:12.183725274"));
+        expectedBudgetDto.set_month(budgetDTO.get_month());
+        expectedBudgetDto.setIncome(budgetDTO.getIncome());
+        expectedBudgetDto.setBalance(budgetDTO.getBalance());
+        expectedBudgetDto.setCreatedAt(budget.getCreatedAt());
+
         Mockito.when(budgetRepo.save(any())).thenReturn(Mono.just(budget));
         var budgetDtoMono = budgetService.create(budgetDTO);
         assertEquals(expectedBudgetDto, budgetDtoMono.block());

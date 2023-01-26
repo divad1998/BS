@@ -26,5 +26,5 @@ public class Budget {
     @NonNull
     private Long patronId;
     @Column(value = "createdAt")
-    private LocalDateTime createdAt = LocalDateTime.now();
+    private LocalDateTime createdAt;
 }

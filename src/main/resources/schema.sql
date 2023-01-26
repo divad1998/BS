@@ -33,5 +33,5 @@ create table if not exists Expenses (
     description varchar(255),
     budgetId Long,
     patronId Long,
-    createdAt timestamp NOT NULL
+    createdAt timestamp CURRENT_TIMESTAMP NOT NULL
 )

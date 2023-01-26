@@ -19,13 +19,11 @@ public class Mapper {
      */
     public Budget toBudget(BudgetDTO budgetDTO) {
         Budget budget = new Budget();
+        budget.setId(budgetDTO.getId());
         budget.setIncome(budgetDTO.getIncome());
         budget.set_month(budgetDTO.get_month());
         budget.setBalance(budgetDTO.getBalance());
-
-        if (budgetDTO.getCreatedAt() != null)  {
-            budget.setCreatedAt(budgetDTO.getCreatedAt());
-        }
+        budget.setCreatedAt(budgetDTO.getCreatedAt());
 
         return budget;
     }
