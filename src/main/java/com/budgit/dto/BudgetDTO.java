@@ -27,5 +27,5 @@ public class BudgetDTO {
     @NonNull
     private String balance;
 
-    private LocalDateTime createdAt;
+    private LocalDateTime createdAt = LocalDateTime.now();
 }

@@ -37,6 +37,7 @@ public class BudgetServiceSpec {
         budgetDTO.set_month(resolvedBudgetDTO.get_month());
         budgetDTO.setIncome(resolvedBudgetDTO.getIncome());
         budgetDTO.setBalance(resolvedBudgetDTO.getBalance());
+        budgetDTO.setCreatedAt(resolvedBudgetDTO.getCreatedAt());
 
         budget = resolvedBudget;
     }
@@ -49,7 +50,7 @@ public class BudgetServiceSpec {
         expectedBudgetDto.set_month(budgetDTO.get_month());
         expectedBudgetDto.setIncome(budgetDTO.getIncome());
         expectedBudgetDto.setBalance(budgetDTO.getBalance());
-        expectedBudgetDto.setCreatedAt(budget.getCreatedAt());
+        expectedBudgetDto.setCreatedAt(budgetDTO.getCreatedAt());
 
         Mockito.when(budgetRepo.save(any())).thenReturn(Mono.just(budget));
         var budgetDtoMono = budgetService.create(budgetDTO);

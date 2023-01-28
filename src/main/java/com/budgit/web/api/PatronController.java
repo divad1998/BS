@@ -75,7 +75,6 @@ public class PatronController {
                                                     .add(linkTo(methodOn(PatronController.class).fetchPatrons()).withRel("patrons")));
     }
 
-
 //
 //    @DeleteMapping(path = "/{patronId}")
 //    public Mono<Response> deletePatronById(@PathVariable Long patronId) {

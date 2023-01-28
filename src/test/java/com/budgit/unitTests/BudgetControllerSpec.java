@@ -51,17 +51,13 @@ public class BudgetControllerSpec {
     private BudgetDTO budgetDTO;
     @BeforeEach
     void init(BudgetDTO resolvedBudgetDTO) {
-        budgetDTO = new BudgetDTO();
-        budgetDTO.setId(resolvedBudgetDTO.getId());
-        budgetDTO.set_month(resolvedBudgetDTO.get_month());
-        budgetDTO.setBalance(resolvedBudgetDTO.getBalance());
-        budgetDTO.setIncome(resolvedBudgetDTO.getIncome());
-        budgetDTO.setCreatedAt(LocalDateTime.parse("2023-01-12T06:26:12.183725274"));
+        budgetDTO = resolvedBudgetDTO;
     }
 
     @Test
-    @DisplayName("Handle save-budget requests and return savedBudgetDTO")
-    void reachSaveBudgetHandler() throws IOException {
+    @DisplayName("Handles save-budget requests and return savedBudgetDTO")
+    void saveBudget() throws IOException {
+
         Mono<BudgetDTO> budgetDTOMono = Mono.just(budgetDTO);
         ClassPathResource expectedJson = new ClassPathResource("/jsonTestData/CreateBudgetResponse.json");
         String expectedJsonString = StreamUtils.copyToString(expectedJson.getInputStream(), Charset.defaultCharset());

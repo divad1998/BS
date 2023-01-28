@@ -19,7 +19,9 @@ public class Mapper {
      */
     public Budget toBudget(BudgetDTO budgetDTO) {
         Budget budget = new Budget();
-        budget.setId(budgetDTO.getId());
+        if (budgetDTO.getId() > 0) {
+            budget.setId(budgetDTO.getId());
+        }
         budget.setIncome(budgetDTO.getIncome());
         budget.set_month(budgetDTO.get_month());
         budget.setBalance(budgetDTO.getBalance());
