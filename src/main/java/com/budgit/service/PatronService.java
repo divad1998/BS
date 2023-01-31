@@ -51,6 +51,16 @@ public class PatronService {
                             .collectSortedList((p1, p2) -> p2.getCreatedAt().compareTo(p1.getCreatedAt()));
     }
 
+    /**
+     * Deletes patron in persistence with matching id through {@link PatronRepository}.
+     * @param patronId id of patron
+     * @return Empty Mono
+     */
+    public Mono<Void> deleteById(long patronId) {
+        //ToDo: check whether authenticated patron's id matches patronId
+        return patronRepository.deleteById(patronId);
+    }
+
 //    /**
 //     *
 //     * find patron by id
@@ -77,4 +87,5 @@ public class PatronService {
 //
 //        return Mono.just(new Response("Patron and associated budgets deleted. GoodBye!"));
 //    }
+
 }

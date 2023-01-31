@@ -9,6 +9,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -20,6 +21,9 @@ import reactor.core.publisher.Mono;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 @ExtendWith({MockitoExtension.class, PatronParameterResolver.class})
 public class PatronServiceSpec {
@@ -56,4 +60,19 @@ public class PatronServiceSpec {
 //
 //        assertEquals(mockedMono, returnedMono);
 //    }
+
+    @DisplayName("Deletes patron with matching id in repo.")
+    @Test
+    void deletePatronInRepo() {
+        //Algo:
+        //Stub PatronRepo.deleteById
+        //assert equality to Mono.void
+        //Verify stubbing
+        Mockito.when(patronRepository.deleteById(anyLong())).thenReturn(Mono.empty());
+
+        Mono<Void> returnedMono = patronService.deleteById(1L);
+        assertEquals(Mono.empty().block(), returnedMono.block());
+
+        verify(patronRepository, times(1)).deleteById(anyLong());
+    }
 }

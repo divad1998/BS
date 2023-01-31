@@ -9,9 +9,7 @@ import com.budgit.table.Patron;
 import com.budgit.validation.Validator;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.function.ServerRequest;
 import reactor.core.publisher.Mono;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
@@ -32,7 +30,7 @@ public class PatronController {
 
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
-    public Mono<Response> createPatron( @RequestBody Patron patron) {
+    public Mono<Response> createPatron(@RequestBody Patron patron) {
         final Validator validator = new Validator();
         Patron validatedPatron = validator.validate(patron);
         return patronService
@@ -45,15 +43,12 @@ public class PatronController {
 
     @PutMapping(path = "/{patronId}")
     public Mono<PatronModel> updatePatron(@PathVariable long patronId, @RequestBody Patron patron) {
-        //ToDo: wrap in if-block, checking whether authenticated user id matches pathVariable, and setting patronId
-        patron.setId(patronId);
+        //ToDo: wrap in if-block, checking whether authenticated user id matches pathVariable
         final Validator validator = new Validator();
-        Patron validatedPatron = validator.nonEmpty(patron);
-        Patron validatedPatron1 = validator.nonBlank(validatedPatron);
-        Patron validatedPatron2 = validator.outOfRange(validatedPatron1);
+        Patron validatedPatron = validator.validate(patron);
 
         return patronService
-                .update(validatedPatron2)
+                .update(validatedPatron)
                 .map(persistedPatron -> new PatronModelAssembler().toModel(persistedPatron))
                 .map(patronModel -> patronModel.add(linkTo(methodOn(AuthenticationController.class).logout()).withRel("logout"))); //ToDo: logout endpoint
     }
@@ -75,11 +70,10 @@ public class PatronController {
                                                     .add(linkTo(methodOn(PatronController.class).fetchPatrons()).withRel("patrons")));
     }
 
-//
-//    @DeleteMapping(path = "/{patronId}")
-//    public Mono<Response> deletePatronById(@PathVariable Long patronId) {
-//
-//        return patronService.deleteById(Mono.just(patronId))
-//                            .map(response -> response.add(linkTo(methodOn(PatronController.class).createPatron(null)).withRel("register")));
-//    }
+    @DeleteMapping(path = "/{patronId}")
+    public Mono<Void> deletePatronById(@PathVariable Long patronId) {
+
+        return patronService
+                        .deleteById(patronId);
+    }
 }
