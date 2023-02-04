@@ -9,7 +9,7 @@ import com.budgit.table.Patron;
  *
  * Performs non-blank and non-empty validations after create-patron request
  */
-public class Validator {
+public class PatronValidator {
 
     /**
      *Entry point of validation
@@ -70,44 +70,34 @@ public class Validator {
      * Calls no blank field validator.
      */
     public Patron nonBlank(Patron patron) {
-        boolean result1 = isNonBlank(patron.getFirstName());
-        if (result1)
+        if (isBlank(patron.getFirstName()))
             throw new BlankFieldException("First name ");
 
-        boolean result2 = isNonBlank(patron.getLastName());
-        if (result2)
+        if (isBlank(patron.getLastName()))
             throw new BlankFieldException("Last name ");
 
-        boolean result3 = isNonBlank(patron.getOtherNames());
-        if (result3)
+        if (isBlank(patron.getOtherNames()))
             throw new BlankFieldException("Other names ");
 
-        boolean result4 = isNonBlank(patron.getCountry());
-        if (result4)
+        if (isBlank(patron.getCountry()))
             throw new BlankFieldException("Country ");
 
-        boolean result5 = isNonBlank(patron.getState());
-        if (result5)
+        if (isBlank(patron.getState()))
             throw new BlankFieldException("State ");
 
-        boolean result6 = isNonBlank(patron.getLga());
-        if (result6)
+        if (isBlank(patron.getLga()))
             throw new BlankFieldException("LGA ");
 
-        boolean result7 = isNonBlank(patron.getCity());
-        if (result7)
+        if (isBlank(patron.getCity()))
             throw new BlankFieldException("City ");
 
-        boolean result8 = isNonBlank(patron.getSex());
-        if (result8)
+        if (isBlank(patron.getSex()))
             throw new BlankFieldException("Sex ");
 
-        boolean result9 = isNonBlank(patron.getEmail());
-        if (result9)
+        if (isBlank(patron.getEmail()))
             throw new BlankFieldException("Email ");
 
-        boolean finalResult = isNonBlank(patron.getPassword());
-        if (finalResult)
+        if (isBlank(patron.getPassword()))
             throw new BlankFieldException("Password ");
 
         return outOfRange(patron);
@@ -119,11 +109,11 @@ public class Validator {
      * @param value Field's value to validate.
      * @return Whether non-blank or not.
      */
-    public boolean isNonBlank(String value) {
+    public boolean isBlank(String value) {
         char chHolder = ' ';
 
         for (char ch : value.toCharArray()) {
-            if (ch == ' ') {
+            if (ch == ' ') { //c hray
                 chHolder = ch;
             } else {
                 chHolder = ch;

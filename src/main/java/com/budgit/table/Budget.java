@@ -21,6 +21,7 @@ public class Budget {
 
     private String _month;
     private String income;
+    private String incomeStreams;
     private String balance;
     @Column(value = "patronId")
     @NonNull

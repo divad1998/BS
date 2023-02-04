@@ -1,35 +1,18 @@
 package com.budgit.unitTests;
 
-import com.budgit.data.PatronRepository;
-import com.budgit.extensions.PatronParameterResolver;
-import com.budgit.hateoas.model.Response;
 import com.budgit.service.PatronService;
-import com.budgit.table.Patron;
 import com.budgit.web.api.PatronController;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.Spy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.boot.test.mock.mockito.SpyBean;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.test.web.reactive.server.WebTestClient;
-import org.springframework.util.StreamUtils;
 import reactor.core.publisher.Mono;
 
-import java.io.IOException;
-import java.nio.charset.Charset;
-
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 import static org.mockito.internal.verification.VerificationModeFactory.times;
 
 @WebFluxTest(controllers = {PatronController.class})
@@ -161,9 +144,6 @@ class PatronControllerSpec {
     //Required: send request to endpoint
     //Expect OK
 
-    //Algo:
-    // Stub PatronService.deleteById to return VoidMono
-    // send request with app.json content type; expect ok
     @MockBean
     PatronService patronService;
 
@@ -184,5 +164,4 @@ class PatronControllerSpec {
 
         verify(patronService, times(1)).deleteById(anyLong());
     }
-
 }

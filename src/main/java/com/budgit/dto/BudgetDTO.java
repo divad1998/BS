@@ -16,14 +16,13 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 public class BudgetDTO {
+    private long id; //on initial mapping from client's data, this is 0.
 
-    private long id; //on initial mapping from client's data, this is null.
-
-    //The non-nulls
     @NonNull
     private String _month;
     @NonNull
     private String income;
+    private String incomeStreams;
     @NonNull
     private String balance;
 

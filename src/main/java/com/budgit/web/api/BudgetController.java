@@ -1,9 +1,9 @@
 package com.budgit.web.api;
 
 import com.budgit.dto.BudgetDTO;
-import com.budgit.hateoas.assembler.BudgetModelAssembler;
-import com.budgit.hateoas.model.BudgetModel;
 import com.budgit.service.BudgetService;
+import com.budgit.validation.BudgetDtoValidator;
+import com.budgit.validation.PatronValidator;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
@@ -20,8 +20,10 @@ public class BudgetController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Mono<BudgetDTO> createBudget(@RequestBody BudgetDTO budgetDTO) {
+        final var validator = new BudgetDtoValidator();
+        BudgetDTO validatedBudgetDto = validator.validate(budgetDTO);
 
-        Mono<BudgetDTO> savedBudgetDTOMono = budgetService.create(budgetDTO);
+        Mono<BudgetDTO> savedBudgetDTOMono = budgetService.create(validatedBudgetDto);
 
         return savedBudgetDTOMono;
     }

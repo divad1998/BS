@@ -16,6 +16,7 @@ public class BudgetDTOParamResolver implements ParameterResolver {
         budgetDTO.setId(1L);
         budgetDTO.set_month("January");
         budgetDTO.setIncome("N162000");
+        budgetDTO.setIncomeStreams("NYSC and Scantrik Diagnostics.");
         budgetDTO.setBalance("N3000");
         budgetDTO.setCreatedAt(LocalDateTime.parse("2023-01-12T06:26:12.183725274"));
     }

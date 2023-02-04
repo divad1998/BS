@@ -36,8 +36,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @WebFluxTest(controllers = BudgetController.class) //loads TestContext, adding declared controller only. How can I start a mock server instead?
 @ExtendWith(BudgetDTOParamResolver.class)
@@ -56,8 +55,7 @@ public class BudgetControllerSpec {
 
     @Test
     @DisplayName("Handles save-budget requests and return savedBudgetDTO")
-    void saveBudget() throws IOException {
-
+    void createBudget() throws IOException {
         Mono<BudgetDTO> budgetDTOMono = Mono.just(budgetDTO);
         ClassPathResource expectedJson = new ClassPathResource("/jsonTestData/CreateBudgetResponse.json");
         String expectedJsonString = StreamUtils.copyToString(expectedJson.getInputStream(), Charset.defaultCharset());
@@ -77,5 +75,29 @@ public class BudgetControllerSpec {
                     .json(expectedJsonString);
 
         Mockito.verify(budgetService, times(1)).create(any());
+    }
+
+    @DisplayName("Returns Http.BadRequest when non-blank field is blank while processing Create-Budget request.")
+    @Test
+    void createBudgetWithBlankField() {
+        BudgetDTO budgetDTO1 = new BudgetDTO();
+        budgetDTO1.set_month("");
+        budgetDTO1.setIncome("");
+        budgetDTO1.setIncomeStreams("");
+        budgetDTO1.setBalance("");
+        budgetDTO1.setCreatedAt(budgetDTO.getCreatedAt());
+
+        Mono<BudgetDTO> budgetDTOMono = Mono.just(budgetDTO1);
+        when(budgetService.create(any())).thenReturn(budgetDTOMono);
+
+        client
+                .post()
+                .uri("http://localhost:8080/api/budgets")
+                .body(budgetDTOMono, BudgetDTO.class)
+                .exchange()
+                .expectStatus()
+                .isBadRequest();
+
+        verify(budgetService, times(1)).create(any());
     }
 }

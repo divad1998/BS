@@ -22,8 +22,9 @@ public class Mapper {
         if (budgetDTO.getId() > 0) {
             budget.setId(budgetDTO.getId());
         }
-        budget.setIncome(budgetDTO.getIncome());
         budget.set_month(budgetDTO.get_month());
+        budget.setIncome(budgetDTO.getIncome());
+        budget.setIncomeStreams(budgetDTO.getIncomeStreams());
         budget.setBalance(budgetDTO.getBalance());
         budget.setCreatedAt(budgetDTO.getCreatedAt());
 
@@ -41,6 +42,7 @@ public class Mapper {
         budgetDTO.setId(budget.getId());
         budgetDTO.set_month(budget.get_month());
         budgetDTO.setIncome(budget.getIncome());
+        budgetDTO.setIncomeStreams(budget.getIncomeStreams());
         budgetDTO.setBalance(budget.getBalance());
         budgetDTO.setCreatedAt(budget.getCreatedAt());
 

@@ -33,7 +33,6 @@ public class PatronServiceSpec {
 
     @InjectMocks
     PatronService patronService;
-
     Patron patron;
 
     @BeforeEach
@@ -64,10 +63,6 @@ public class PatronServiceSpec {
     @DisplayName("Deletes patron with matching id in repo.")
     @Test
     void deletePatronInRepo() {
-        //Algo:
-        //Stub PatronRepo.deleteById
-        //assert equality to Mono.void
-        //Verify stubbing
         Mockito.when(patronRepository.deleteById(anyLong())).thenReturn(Mono.empty());
 
         Mono<Void> returnedMono = patronService.deleteById(1L);

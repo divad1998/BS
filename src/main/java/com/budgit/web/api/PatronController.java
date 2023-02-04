@@ -6,7 +6,7 @@ import com.budgit.hateoas.model.Response;
 import com.budgit.security.AuthenticationController;
 import com.budgit.service.PatronService;
 import com.budgit.table.Patron;
-import com.budgit.validation.Validator;
+import com.budgit.validation.PatronValidator;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -31,8 +31,8 @@ public class PatronController {
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
     public Mono<Response> createPatron(@RequestBody Patron patron) {
-        final Validator validator = new Validator();
-        Patron validatedPatron = validator.validate(patron);
+        final PatronValidator patronValidator = new PatronValidator();
+        Patron validatedPatron = patronValidator.validate(patron);
         return patronService
                             .create(validatedPatron)
                             .map(response -> {
@@ -44,8 +44,8 @@ public class PatronController {
     @PutMapping(path = "/{patronId}")
     public Mono<PatronModel> updatePatron(@PathVariable long patronId, @RequestBody Patron patron) {
         //ToDo: wrap in if-block, checking whether authenticated user id matches pathVariable
-        final Validator validator = new Validator();
-        Patron validatedPatron = validator.validate(patron);
+        final PatronValidator patronValidator = new PatronValidator();
+        Patron validatedPatron = patronValidator.validate(patron);
 
         return patronService
                 .update(validatedPatron)
