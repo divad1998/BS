@@ -15,6 +15,7 @@ import com.budgit.table.Expense;
 import com.budgit.web.api.BudgetController;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -46,58 +47,77 @@ public class BudgetControllerSpec {
     private BudgetService budgetService;
     @Autowired
     private WebTestClient client;
-
     private BudgetDTO budgetDTO;
+
     @BeforeEach
     void init(BudgetDTO resolvedBudgetDTO) {
         budgetDTO = resolvedBudgetDTO;
     }
 
-    @Test
-    @DisplayName("Handles save-budget requests and return savedBudgetDTO")
-    void createBudget() throws IOException {
-        Mono<BudgetDTO> budgetDTOMono = Mono.just(budgetDTO);
-        ClassPathResource expectedJson = new ClassPathResource("/jsonTestData/CreateBudgetResponse.json");
-        String expectedJsonString = StreamUtils.copyToString(expectedJson.getInputStream(), Charset.defaultCharset());
+    @DisplayName("Creating Budget")
+    @Nested
+    class CreatingBudget {
 
-        when(budgetService.create(any())).thenReturn(budgetDTOMono);
+        @Test
+        @DisplayName("Handles save-budget requests and return savedBudgetDTO.")
+        void createBudget() throws IOException {
+            Mono<BudgetDTO> budgetDTOMono = Mono.just(budgetDTO);
+            ClassPathResource expectedJson = new ClassPathResource("/jsonTestData/CreateBudgetResponse.json");
+            String expectedJsonString = StreamUtils.copyToString(expectedJson.getInputStream(), Charset.defaultCharset());
 
-        client
-                .post()
+            when(budgetService.create(any())).thenReturn(budgetDTOMono);
+
+            client
+                    .post()
                     .uri("http://localhost:8080/api/budgets")
                     .body(budgetDTOMono, BudgetDTO.class)
-                .exchange()
-                .expectStatus()
+                    .exchange()
+                    .expectStatus()
                     .isCreated()
-                .expectHeader()
+                    .expectHeader()
                     .contentType("application/json")
-                .expectBody()
+                    .expectBody()
                     .json(expectedJsonString);
 
-        Mockito.verify(budgetService, times(1)).create(any());
-    }
+            Mockito.verify(budgetService, times(1)).create(any());
+        }
 
-    @DisplayName("Returns Http.BadRequest when non-blank field is blank while processing Create-Budget request.")
-    @Test
-    void createBudgetWithBlankField() {
-        BudgetDTO budgetDTO1 = new BudgetDTO();
-        budgetDTO1.set_month("");
-        budgetDTO1.setIncome("");
-        budgetDTO1.setIncomeStreams("");
-        budgetDTO1.setBalance("");
-        budgetDTO1.setCreatedAt(budgetDTO.getCreatedAt());
+        @DisplayName("Returns Http.BadRequest when non-empty field is empty.")
+        @Test
+        void createBudgetWithEmptyField() {
+            BudgetDTO budgetDTO1 = new BudgetDTO();
+            budgetDTO1.set_month("");
+            budgetDTO1.setIncome("");
+            budgetDTO1.setIncomeStreams("");
+            budgetDTO1.setBalance("");
 
-        Mono<BudgetDTO> budgetDTOMono = Mono.just(budgetDTO1);
-        when(budgetService.create(any())).thenReturn(budgetDTOMono);
+            Mono<BudgetDTO> budgetDTOMono = Mono.just(budgetDTO1);
 
-        client
-                .post()
-                .uri("http://localhost:8080/api/budgets")
-                .body(budgetDTOMono, BudgetDTO.class)
-                .exchange()
-                .expectStatus()
-                .isBadRequest();
+            client
+                    .post()
+                    .uri("http://localhost:8080/api/budgets")
+                    .body(budgetDTOMono, BudgetDTO.class)
+                    .exchange()
+                    .expectStatus()
+                    .isBadRequest();
+        }
 
-        verify(budgetService, times(1)).create(any());
+        @DisplayName("Returns HttpStatus.BADREQUEST when non-blank field is blank.")
+        @Test
+        void createWithBlankField() {
+
+            BudgetDTO budgetDTO1 = new BudgetDTO();
+            budgetDTO1.set_month(" ");
+            budgetDTO1.setIncome(" ");
+            budgetDTO1.setBalance(" ");
+
+            client
+                    .post()
+                    .uri("http://localhost:8080/api/budgets")
+                    .body(Mono.just(budgetDTO1), BudgetDTO.class)
+                    .exchange()
+                    .expectStatus()
+                        .isBadRequest();
+        }
     }
 }

@@ -8,5 +8,5 @@ public class BudgitApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(BudgitApplication.class, args);
-    }
+   }
 }

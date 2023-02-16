@@ -29,3 +29,4 @@ public class Budget {
     @Column(value = "createdAt")
     private LocalDateTime createdAt;
 }
+
