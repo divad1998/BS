@@ -23,9 +23,16 @@ public class BudgetController {
         final var validator = new BudgetDtoValidator();
         BudgetDTO validatedBudgetDto = validator.validate(budgetDTO);
 
-        Mono<BudgetDTO> savedBudgetDTOMono = budgetService.create(validatedBudgetDto);
+        return budgetService.create(validatedBudgetDto);
+    }
 
-        return savedBudgetDTOMono;
+    @PutMapping(path = "/{budgetId}")
+    public Mono<BudgetDTO> updateBudget(@PathVariable long budgetId, @RequestBody BudgetDTO budgetDto) {
+        //Algo:
+        //pass both params to budgetService.update()
+        //this returns BudgetDtoMono
+        //return this Mono
+        return budgetService.update(budgetId, budgetDto);
     }
 
     //ToDo: edit this

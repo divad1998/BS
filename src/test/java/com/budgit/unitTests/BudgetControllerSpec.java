@@ -43,10 +43,11 @@ import static org.mockito.Mockito.*;
 @ExtendWith(BudgetDTOParamResolver.class)
 public class BudgetControllerSpec {
 
-    @MockBean
-    private BudgetService budgetService;
     @Autowired
     private WebTestClient client;
+
+    @MockBean
+    private BudgetService budgetService;
     private BudgetDTO budgetDTO;
 
     @BeforeEach
@@ -54,9 +55,9 @@ public class BudgetControllerSpec {
         budgetDTO = resolvedBudgetDTO;
     }
 
-    @DisplayName("Creating Budget")
+    @DisplayName("Creates Budget")
     @Nested
-    class CreatingBudget {
+    class CreateBudgetSpec {
 
         @Test
         @DisplayName("Handles save-budget requests and return savedBudgetDTO.")
@@ -118,6 +119,35 @@ public class BudgetControllerSpec {
                     .exchange()
                     .expectStatus()
                         .isBadRequest();
+        }
+    }
+
+    @DisplayName("Updates Budget")
+    @Nested
+    class UpdateBudgetSpec {
+
+        @DisplayName("Updates budget successfully.")
+        @Test
+        void updateBudget() throws IOException {
+            Mono<BudgetDTO> budgetDTOMono = Mono.just(budgetDTO);
+            when(budgetService.update(anyLong(), any())).thenReturn(budgetDTOMono);
+
+            ClassPathResource expectedJson = new ClassPathResource("/jsonTestData/CreateBudgetResponse.json");
+            String expectedJsonString = StreamUtils.copyToString(expectedJson.getInputStream(), Charset.defaultCharset());
+
+            client
+                    .put()
+                    .uri("http://localhost:8080/api/budgets/{budgetId}", 1L)
+                    .body(budgetDTOMono, BudgetDTO.class)
+                    .exchange()
+                    .expectStatus()
+                        .isOk()
+                    .expectHeader()
+                        .contentType("application/json")
+                    .expectBody()
+                        .json(expectedJsonString);
+
+            verify(budgetService, times(1)).update(anyLong(), any());
         }
     }
 }

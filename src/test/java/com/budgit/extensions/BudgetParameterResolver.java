@@ -16,6 +16,7 @@ public class BudgetParameterResolver implements ParameterResolver {
         budget.setId(1L);
         budget.set_month("January");
         budget.setIncome("N162000");
+        budget.setIncomeStreams("NYSC and Scantrik Diagnostics.");
         budget.setBalance("N3000");
         budget.setCreatedAt(LocalDateTime.parse("2023-01-12T06:26:12.183725274"));
     }

@@ -24,6 +24,7 @@ import static org.mockito.ArgumentMatchers.any;
 @ExtendWith({MockitoExtension.class, BudgetParameterResolver.class, BudgetDTOParamResolver.class})
 public class BudgetServiceSpec {
     BudgetDTO budgetDTO;
+    BudgetDTO expectedBudgetDto;
     Budget budget;
 
     @Mock
@@ -36,22 +37,17 @@ public class BudgetServiceSpec {
         budgetDTO = new BudgetDTO();
         budgetDTO.set_month(resolvedBudgetDTO.get_month());
         budgetDTO.setIncome(resolvedBudgetDTO.getIncome());
+        budgetDTO.setIncomeStreams("NYSC and Scantrik Diagnostics");
         budgetDTO.setBalance(resolvedBudgetDTO.getBalance());
         budgetDTO.setCreatedAt(resolvedBudgetDTO.getCreatedAt());
 
+        expectedBudgetDto = resolvedBudgetDTO;
         budget = resolvedBudget;
     }
 
     @DisplayName("Creates budget")
     @Test
     void saveBudget() {
-        var expectedBudgetDto = new BudgetDTO();
-        expectedBudgetDto.setId(1L);
-        expectedBudgetDto.set_month(budgetDTO.get_month());
-        expectedBudgetDto.setIncome(budgetDTO.getIncome());
-        expectedBudgetDto.setBalance(budgetDTO.getBalance());
-        expectedBudgetDto.setCreatedAt(budgetDTO.getCreatedAt());
-
         Mockito.when(budgetRepo.save(any())).thenReturn(Mono.just(budget));
         var budgetDtoMono = budgetService.create(budgetDTO);
         assertEquals(expectedBudgetDto, budgetDtoMono.block());
@@ -59,5 +55,20 @@ public class BudgetServiceSpec {
         Mockito.verify(budgetRepo, Mockito.times(1)).save(any());
     }
 
+    @DisplayName("Updates budget in database.")
+    @Test
+    void updateBudget() {
+        //Algo:
+        //just stub repo.save
+        //call service.update
+        //assert equality between resolved and .block
+        //verify stubbing
+        Mockito.when(budgetRepo.save(any())).thenReturn(Mono.just(budget));
+
+        Mono<BudgetDTO> budgetDTOMono = budgetService.update(1L, budgetDTO);
+        assertEquals(expectedBudgetDto, budgetDTOMono.block());
+
+        Mockito.verify(budgetRepo, Mockito.times(1)).save(any());
+    }
 
 }

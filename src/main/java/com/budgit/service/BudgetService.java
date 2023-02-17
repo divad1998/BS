@@ -4,6 +4,7 @@ import com.budgit.data.BudgetRepository;
 import com.budgit.dto.BudgetDTO;
 import com.budgit.map.Mapper;
 import com.budgit.table.Budget;
+import com.budgit.validation.BudgetDtoValidator;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
@@ -27,5 +28,28 @@ public class BudgetService {
         return budgetRepository
                             .save(budget)
                             .map(mapper::toBudgetDTO);
+    }
+
+    /**
+     *
+     * Updates budget in persistence
+     *
+     */
+    public Mono<BudgetDTO> update(long budgetId, BudgetDTO budgetDto) {
+        //ALgo:
+        //validate
+        //run the security authorization check
+        //map to budget
+        //persist
+        //map to budgetDto
+        //return to controller
+        final BudgetDtoValidator validator = new BudgetDtoValidator();
+        BudgetDTO validatedBudgetDto = validator.validate(budgetDto);
+        //ToDo: security check and id setting
+        validatedBudgetDto.setId(budgetId);
+        Budget budget = mapper.toBudget(validatedBudgetDto);
+        return budgetRepository
+                        .save(budget)
+                        .map(persistedBudget -> mapper.toBudgetDTO(persistedBudget));
     }
 }
