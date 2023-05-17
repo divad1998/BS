@@ -1,2 +1,2 @@
 # BS
-A Restful API.
+A Restful API for budgetting.
