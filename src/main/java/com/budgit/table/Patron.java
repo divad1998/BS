@@ -10,7 +10,6 @@ import reactor.util.annotation.NonNull;
 
 import java.time.LocalDateTime;
 
-@Table(name = "Patrons")
 @Data
 @AllArgsConstructor //ToDo: why did i need this?
 @NoArgsConstructor
