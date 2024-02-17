@@ -1,5 +1,7 @@
 spring:
+  application:
+    name: Personal budgeting API
   r2dbc:
-    url: r2dbc:postgresql://localhost:5432/test
+    url: r2dbc:postgresql://db:5432/test
     username: postgres
     password: password
