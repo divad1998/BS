@@ -22,6 +22,7 @@ public class BudgetDTO {
     private String _month;
     @NonNull
     private String income;
+    @NonNull
     private String incomeStreams;
     @NonNull
     private String balance;
