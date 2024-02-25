@@ -7,6 +7,7 @@ import com.budgit.security.AuthenticationController;
 import com.budgit.service.PatronService;
 import com.budgit.table.Patron;
 import com.budgit.validation.PatronValidator;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -30,6 +31,7 @@ public class PatronController {
 
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
+    @Tag(name = "Create user/patron.", description = "Registers a new user/patron.")
     public Mono<Response> createPatron(@RequestBody Patron patron) {
         final PatronValidator patronValidator = new PatronValidator();
         Patron validatedPatron = patronValidator.validate(patron);
