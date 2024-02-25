@@ -57,7 +57,7 @@ public class PatronController {
     }
 
     @GetMapping(path = "/{patronId}")
-    @Tag(name = "Get user by id.", description = "Fetches a specified user by the primary key: id.")
+    @Tag(name = "Get user by id.", description = "Fetches a registered user by the primary key: id.")
     public Mono<PatronModel> getPatronById(@PathVariable Long patronId) {
 
         return patronService
@@ -66,7 +66,7 @@ public class PatronController {
     }
 
     @GetMapping
-    @Tag(name = "Fecth all users.", description = "Fetches all registered users.")
+    @Tag(name = "Fetch all users.", description = "Fetches all registered users.")
     public Mono<CollectionModel<PatronModel>> fetchPatrons() {
         return patronService
                 .fetchAll()
