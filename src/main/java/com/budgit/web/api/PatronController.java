@@ -31,7 +31,7 @@ public class PatronController {
 
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
-    @Tag(name = "Create user/patron.", description = "Registers a new user/patron.")
+    @Tag(name = "Create user.", description = "Registers a new user/patron.")
     public Mono<Response> createPatron(@RequestBody Patron patron) {
         final PatronValidator patronValidator = new PatronValidator();
         Patron validatedPatron = patronValidator.validate(patron);
@@ -44,6 +44,7 @@ public class PatronController {
     }
 
     @PutMapping(path = "/{patronId}")
+    @Tag(name = "Update user data.", description = "Updates data of a registered user.")
     public Mono<PatronModel> updatePatron(@PathVariable long patronId, @RequestBody Patron patron) {
         //ToDo: wrap in if-block, checking whether authenticated user id matches pathVariable
         final PatronValidator patronValidator = new PatronValidator();
@@ -56,6 +57,7 @@ public class PatronController {
     }
 
     @GetMapping(path = "/{patronId}")
+    @Tag(name = "Get user by id.", description = "Fetches a specified user by the primary key: id.")
     public Mono<PatronModel> getPatronById(@PathVariable Long patronId) {
 
         return patronService
@@ -64,6 +66,7 @@ public class PatronController {
     }
 
     @GetMapping
+    @Tag(name = "Fecth all users.", description = "Fetches all registered users.")
     public Mono<CollectionModel<PatronModel>> fetchPatrons() {
         return patronService
                 .fetchAll()
@@ -73,6 +76,7 @@ public class PatronController {
     }
 
     @DeleteMapping(path = "/{patronId}")
+    @Tag(name = "Delete a specified user", description = "Deletes a specified user by the primary key: id.")
     public Mono<Void> deletePatronById(@PathVariable Long patronId) {
 
         return patronService

@@ -2,6 +2,7 @@ package com.budgit.web.api;
 
 import com.budgit.service.ExpenseService;
 import com.budgit.table.Expense;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -17,6 +18,7 @@ public class ExpenseController {
     }
 
     @PostMapping
+    @Tag(name = "Create expense", description = "Adds expense to a budget (incomplete).")
     public Mono<Expense> addExpense(@RequestBody Expense expense) {
 
         return null;
